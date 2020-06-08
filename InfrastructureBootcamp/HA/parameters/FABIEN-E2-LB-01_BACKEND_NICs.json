@@ -1,0 +1,74 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "lbResourceGroup": {
+          "value": "FABIEN-E2-RG-NETWORK"
+        },
+        "lbName": {
+          "value": "FABIEN-E2-LB-01" 
+        },
+        "VNETResourceGroup": {
+            "value": "FABIEN-E2-RG-NETWORK"
+        },
+        "VNETName": {
+            "value": "FABIEN-E2-VNET" 
+        },
+        "VNETSubnet": {
+            "value": "FABIEN-E2-SNT-ED" 
+        },
+        "lbBackendPoolNIC": {
+            "value": [                          
+               {                 
+                 "NICName": "FABIEN-E2-WEB01-NIC-001",
+                 "NICIpConfigurations": [
+                     {
+                        "isPrimary": true,
+                        "Name": "ipconfig1",
+                        "IPAddress": "10.177.1.4",
+                        "lbBackendPoolName": "eLbBePool1",
+                        "PublicIpResourceGroup" : "",
+                        "PublicIpName": ""                        
+                     }
+                 ],
+                 "enableIPForwarding": false                 
+               },                          
+               {                 
+                 "NICName": "FABIEN-E2-WEB01-NIC-002",
+                 "NICIpConfigurations": [
+                     {
+                        "isPrimary": true,
+                        "Name": "ipconfig1",
+                        "IPAddress": "10.177.1.5",
+                        "lbBackendPoolName": "eLbBePool1",
+                        "PublicIpResourceGroup" : "",
+                        "PublicIpName": ""                        
+                     }
+                 ],
+                 "enableIPForwarding": false                 
+               }                          
+            ]
+        },
+        "Tag-System": {
+          "value": "Infrastructure"
+        },
+        "Tag-Component": {
+          "value": "Webservers NICs"
+        },
+        "Tag-Environment": {
+          "value": "DR"
+        },
+        "Tag-BillingProject": {
+          "value": "Infrastructure"
+        },
+        "Tag-Compliance": {
+          "value": ""
+        },
+        "Tag-ManagedBy": {
+          "value": ""
+        },
+        "Tag-Role": {
+          "value": "Infrastructure"
+        }
+    }        
+}

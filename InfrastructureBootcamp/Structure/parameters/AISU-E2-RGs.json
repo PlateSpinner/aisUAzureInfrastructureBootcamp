@@ -1,0 +1,48 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "deploymentLocation": {
+            "value": "EastUS2" 
+        },
+        "resourceGroups": {
+            "value": [
+                        {
+                          "ResourceGroupName": "AISU-E2-RG-NSG",
+                          "ResourceGroupTags": {
+                            "System": "Infrastructure",
+                            "Component": "Resource Group for Network Security Groups"
+                          }
+                        },
+                        {
+                          "ResourceGroupName": "AISU-E2-RG-NETWORK",
+                          "ResourceGroupTags": {
+                            "System": "Infrastructure",
+                            "Component": "Resource Group for Network Resources"
+                          }
+                        },
+                        {
+                          "ResourceGroupName": "AISU-E2-RG-AUTO",
+                          "ResourceGroupTags": {
+                            "System": "Infrastructure",
+                            "Component": "Resource Group for Automation Accounts"
+                          }
+                        },
+                        {
+                          "ResourceGroupName": "AISU-E2-RG-AKV",
+                          "ResourceGroupTags": {
+                            "System": "Infrastructure",
+                            "Component": "Resource Group for Key Vaults"
+                          }
+                        },
+                        {
+                          "ResourceGroupName": "AISU-E2-RG-01",
+                          "ResourceGroupTags": {
+                            "System": "Infrastructure",
+                            "Component": "Resource Group for VM and other resources"
+                          }
+                        }
+            ]                      
+        }
+    }        
+}

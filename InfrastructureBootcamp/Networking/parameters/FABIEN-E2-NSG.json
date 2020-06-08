@@ -1,0 +1,33 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "deploymentResourceGroup": {
+            "value": "AISU-E2-RG-NSG"
+        },
+        "nsgNamePrefix": {
+          "value": "FABIEN-E2-NSG"
+        },            
+        "edAddressPrefix": {
+          "value": "10.171.1.0/24"
+        },
+        "apAddressPrefix": {
+          "value": "10.171.2.0/24"
+        },
+        "dbAddressPrefix": {
+          "value": "10.171.3.0/24"
+        },
+        "jumpServerSubnet": {
+          "value": "10.154.5.0/24"
+        },
+        "domainControllerSubnet": {
+          "value": "10.154.4.0/24"
+        },
+        "AdfsIpAddress": {
+          "value": "10.154.3.4"
+        },
+        "CrlIpAddress": {
+          "value": "10.154.4.4"
+        }
+    }        
+}

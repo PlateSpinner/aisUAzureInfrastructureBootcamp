@@ -1,0 +1,77 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "deploymentResourceGroup": {
+            "value": "AISU-E2-RG-NETWORK"
+        },
+        "vnetName": {
+            "value": "HETTINGER-E2-VNET"
+        },
+        "vnetAddressPrefix": {
+            "value": ["10.172.0.0/16"]
+        },
+        "tags": {
+            "value": {
+              "system": "Infrastructure",
+              "component": "Virtual Network",
+              "billingProject": "AIS Demo"
+            }
+        },
+        "DnsServers": {
+            "value": [
+                "10.154.4.4",
+                "10.154.4.5"
+            ]
+        },
+        "subnets": {
+            "value": [
+                {
+                    "SubnetName": "GatewaySubnet",     
+                    "addressPrefix": "10.172.0.0/24",          
+                    "NsgResourceGroup": "",
+                    "NsgName": "",          
+                    "UdrResourceGroup": "",
+                    "UdrName": "",
+                    "serviceEndpoints": ""
+                },
+                {
+                    "SubnetName": "HETTINGER-E2-SNT-ED",
+                    "addressPrefix": "10.172.1.0/24",          
+                    "NsgResourceGroup": "AISU-E2-RG-NSG",
+                    "NsgName": "HETTINGER-E2-NSG-ED",          
+                    "UdrResourceGroup": "",
+                    "UdrName": "",
+                    "serviceEndpoints": [
+                        {"service": "Microsoft.Storage"},
+                        {"service": "Microsoft.Keyvault"} 
+                    ]                   
+                },
+                {
+                    "SubnetName": "HETTINGER-E2-SNT-AP",
+                    "addressPrefix": "10.172.2.0/24",          
+                    "NsgResourceGroup": "AISU-E2-RG-NSG",
+                    "NsgName": "HETTINGER-E2-NSG-AP",          
+                    "UdrResourceGroup": "",
+                    "UdrName": "",
+                    "serviceEndpoints": [
+                        {"service": "Microsoft.Storage"},
+                        {"service": "Microsoft.Keyvault"} 
+                    ]
+                },
+                {
+                    "SubnetName": "HETTINGER-E2-SNT-DB",
+                    "addressPrefix": "10.172.3.0/24",          
+                    "NsgResourceGroup": "AISU-E2-RG-NSG",
+                    "NsgName": "HETTINGER-E2-NSG-DB",          
+                    "UdrResourceGroup": "",
+                    "UdrName": "",
+                    "serviceEndpoints": [
+                        {"service": "Microsoft.Storage"},
+                        {"service": "Microsoft.Keyvault"} 
+                    ]
+                }
+            ]                      
+        }
+    }        
+}

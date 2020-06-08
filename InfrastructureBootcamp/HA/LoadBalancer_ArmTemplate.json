@@ -1,0 +1,230 @@
+ { 
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "deploymentResourceGroup": {
+      "type": "string"
+  },
+    "lbName": {
+        "type": "string"
+    },
+    "lbSKU": {
+        "type": "string",
+        "defaultValue": "Basic",
+        "allowedValues": [
+            "Basic",
+            "Standard"
+        ]
+    },
+    "VNETResourceGroup": {
+        "type": "string"
+    },
+    "VNETName": {
+        "type": "string"
+    },
+    "VNETSubnet": {
+        "type": "string"
+    },
+    "lbFrontendType": {
+      "type": "string",
+      "defaultValue": "private",
+      "allowedValues": [
+          "private",
+          "public"
+      ]
+    },
+    "lbFrontends": {
+      "type": "array"
+    },
+    "lbBackendPools": {
+      "type": "array"
+    },
+    "lbProbes": {
+      "type": "array"
+    },
+    "lbRules": {
+      "type": "array"
+    },
+    "configureOutboundRules": {
+      "type": "int",
+      "defaultValue": 0,
+      "allowedValues": [0,1]
+    },
+    "outboundNatRules": {
+      "type": "array",
+      "defaultValue": []
+    },
+    "Tag-System": {
+      "type": "string"
+    },
+    "Tag-Component": {
+      "type": "string"
+    },
+    "Tag-Environment": {
+      "type": "string"
+    },
+    "Tag-BillingProject": {
+      "type": "string"
+    },
+    "Tag-Compliance": {
+      "type": "string"
+    },
+    "Tag-ManagedBy": {
+      "type": "string"
+    },
+    "Tag-Role": {
+      "type": "string"
+    }
+   },
+  "variables": {
+    "copy": [
+      { 
+        "name": "outboundRules",
+        "count": "[if(equals(parameters('configureOutboundRules'),0),1,length(parameters('outboundNatRules')))]",
+        "input": {
+            "name": "[if(equals(parameters('configureOutboundRules'),0), json('null'), parameters('outboundNatRules')[copyIndex('outboundRules')].Name)]",                        
+            "properties": {
+                  "frontendIPConfigurations": [
+                    {
+                      "id": "[if(equals(parameters('configureOutboundRules'),0), json('null'), concat(resourceId('Microsoft.Network/loadBalancers', parameters('lbName')), '/frontendIpConfigurations/', parameters('outboundNatRules')[copyIndex('outboundRules')].FrontEndPool))]"
+                    }
+                  ],
+                  "backendAddressPool": {
+                    "id": "[if(equals(parameters('configureOutboundRules'),0), json('null'), concat(resourceId('Microsoft.Network/loadBalancers', parameters('lbName')), '/backendAddressPools/', parameters('outboundNatRules')[copyIndex('outboundRules')].BackEndPool))]"                    
+                  },
+                  "protocol": "[if(equals(parameters('configureOutboundRules'),0), json('null'), parameters('outboundNatRules')[copyIndex('outboundRules')].Protocol)]"
+            }
+        } 
+      }
+    ]
+  },
+  "functions": [
+    {
+      "namespace": "lbfunc",
+      "members": {
+        "GetSubnetId": {
+          "parameters": [
+            {
+              "name": "VNETResourceGroup",
+              "type": "string"
+            },
+            {
+              "name": "VNETName",
+              "type": "string"
+            },
+            {
+              "name": "VNETSubnet",
+              "type": "string"
+            }
+          ],
+          "output": {
+            "type":"object",
+            "value": {"id": "[concat('/subscriptions/',subscription().subscriptionId,'/resourceGroups/',parameters('VNETResourceGroup'),'/providers/Microsoft.Network/virtualNetworks/',parameters('VNETName'),'/subnets/',parameters('VNETSubnet'))]"}
+          }
+        },
+        "GetResourceId": {
+          "parameters": [
+            {
+              "name": "ResourceGroup",
+              "type": "string"
+            },
+            {
+             "name": "Name",
+             "type": "string"
+            },
+            {
+             "name": "Type",
+             "type": "string"
+            }
+          ],
+          "output": {
+            "type":"object",
+            "value": {"id": "[resourceId(parameters('ResourceGroup'), parameters('Type'), parameters('Name'))]"}
+          }
+        }
+      }
+    }
+  ],
+  "resources": [
+    {
+       "apiVersion": "2018-06-01",
+       "name": "[parameters('lbName')]",
+       "type": "Microsoft.Network/loadBalancers",
+       "location": "[resourceGroup().location]",
+       "tags": {
+         "System": "[parameters('Tag-System')]",
+         "Component": "[parameters('Tag-Component')]",
+         "Environment": "[parameters('Tag-Environment')]",
+         "Billing Project": "[parameters('Tag-BillingProject')]",
+         "Compliance": "[parameters('Tag-Compliance')]",
+         "Managed By": "[parameters('Tag-ManagedBy')]",
+         "Role": "[parameters('Tag-Role')]"       
+       },
+       "sku": {
+         "name": "[parameters('lbSKU')]"
+       },         
+       "properties": {
+         "copy": [
+             {
+               "name": "frontendIPConfigurations",
+               "count": "[length(parameters('lbFrontends'))]",
+               "input": {
+                   "name": "[parameters('lbFrontends')[copyIndex('frontendIPConfigurations')].Name]",
+                   "properties": {
+                           "subnet": "[if(equals(parameters('lbFrontendType'), 'private'), lbfunc.GetSubnetId(parameters('VNETResourceGroup'),parameters('VNETName'),parameters('VNETSubnet')), json('null'))]",
+                           "privateIPAddress": "[if(equals(parameters('lbFrontendType'), 'private'),parameters('lbFrontends')[copyIndex('frontendIPConfigurations')].PrivateIP, json('null'))]",                              
+                           "privateIPAllocationMethod": "[if(equals(parameters('lbFrontendType'), 'private'),parameters('lbFrontends')[copyIndex('frontendIPConfigurations')].PrivateIPAllocationMethod, json('null'))]",                              
+                           "publicIPAddress": "[if(equals(parameters('lbFrontendType'), 'public'), lbfunc.GetResourceId(resourceGroup().name,parameters('lbFrontends')[copyIndex('frontendIPConfigurations')].PublicIPName,'Microsoft.Network/publicIPAddresses'), json('null'))]"
+                   }
+               }
+             },            
+             {
+               "name": "backendAddressPools",
+               "count": "[length(parameters('lbBackendPools'))]",
+               "input": {
+                   "name": "[parameters('lbBackendPools')[copyIndex('backendAddressPools')]]"                      
+               }
+             },
+             {
+               "name": "probes",
+               "count": "[length(parameters('lbProbes'))]",
+               "input": {
+                   "name": "[parameters('lbProbes')[copyIndex('probes')].Name]",
+                   "properties": {
+                         "protocol": "[parameters('lbProbes')[copyIndex('probes')].Protocol]",
+                         "port": "[parameters('lbProbes')[copyIndex('probes')].Port]",
+                         "intervalInSeconds": "5",
+                         "numberOfProbes": "2"
+                       }
+               }
+             },
+             {
+                 "name": "loadBalancingRules",
+                 "count": "[length(parameters('lbRules'))]",
+                 "input": {
+                     "name": "[parameters('lbRules')[copyIndex('loadBalancingRules')].Name]",
+                     "properties": {
+                           "frontendIPConfiguration": {
+                             "id": "[concat(resourceId('Microsoft.Network/loadBalancers', parameters('lbName')), '/frontendIpConfigurations/', parameters('lbRules')[copyIndex('loadBalancingRules')].FrontEndPool)]"
+                           },
+                           "backendAddressPool": {
+                             "id": "[concat(resourceId('Microsoft.Network/loadBalancers', parameters('lbName')), '/backendAddressPools/', parameters('lbRules')[copyIndex('loadBalancingRules')].BackEndPool)]"
+                           },
+                           "probe": {
+                             "id": "[concat(resourceId('Microsoft.Network/loadBalancers', parameters('lbName')), '/probes/', parameters('lbRules')[copyIndex('loadBalancingRules')].Probe)]"
+                           },
+                           "protocol": "[parameters('lbRules')[copyIndex('loadBalancingRules')].Protocol]",
+                           "frontendPort": "[parameters('lbRules')[copyIndex('loadBalancingRules')].FrontendPort]",
+                           "backendPort": "[parameters('lbRules')[copyIndex('loadBalancingRules')].BackendPort]",
+                           "idleTimeoutInMinutes": "[parameters('lbRules')[copyIndex('loadBalancingRules')].IdleTimeout]",
+                           "DisableOutboundSNAT": "[parameters('lbRules')[copyIndex('loadBalancingRules')].DisableOutboundSNAT]"
+                         }
+                 }
+             }           
+         ],
+         "outboundRules": "[if(equals(parameters('configureOutboundRules'),0), json('null'), variables('outboundRules'))]"
+     }
+    }
+  ]
+ }
+  

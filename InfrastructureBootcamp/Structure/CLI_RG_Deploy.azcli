@@ -1,0 +1,5 @@
+
+#Highlight Each line below and Right Click - Then Select "Run in Terminal"
+az deployment create --location "EastUS" --name ExampleDeployment --template-file InfrastructureBootcamp\02-Structure\resourceGroup_armTemplate.json --parameters @InfrastructureBootcamp\02-Structure\parameters\AISU-E-RGs.json
+
+az deployment create --location "EastUS2" --name ExampleDeploymentEUS2 --template-file InfrastructureBootcamp\02-Structure\resourceGroup_armTemplate.json --parameters @InfrastructureBootcamp\02-Structure\parameters\AISU-E2-RGs.json

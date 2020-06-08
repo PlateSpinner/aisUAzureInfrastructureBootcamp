@@ -1,0 +1,1 @@
+get-azvm | Select name

@@ -1,0 +1,25 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "deploymentResourceGroup": {
+          "value": "AISU-E-RG-LOG"
+      },
+      "workspaceName": {
+        "value": "FABIEN-E-LOGWS1"
+      },
+      "serviceTier": {
+        "value": "Free"
+      },
+      "dataRetention": {
+        "value": 7
+      },
+      "tags": {
+          "value": {
+            "system": "Infrastructure",
+            "component": "Log Analytics Workspace",
+            "billingProject": "AIS Demo"
+          }
+      }
+    }        
+}

@@ -1,0 +1,18 @@
+[
+    {
+        "ManagementGroupName": "674b825e-1ba7-411e-ab3c-dfdfd988ac01",
+        "ManagementGroupDisplayName": "PROD-MGP",
+        "ManagementGroupParent":{
+            "Id": "/providers/Microsoft.Management/managementGroups/f14ab112-bc6e-49b4-aee6-65aba611b18d"
+        },
+        "ChildSubscriptions": []
+    },
+    {
+        "ManagementGroupName": "9f0c6503-124c-44da-a479-1a99db875d31",
+        "ManagementGroupDisplayName": "DEV-MGP",
+        "ManagementGroupParent":{
+            "Id": "/providers/Microsoft.Management/managementGroups/f14ab112-bc6e-49b4-aee6-65aba611b18d"
+        },
+        "ChildSubscriptions": []
+    }
+]

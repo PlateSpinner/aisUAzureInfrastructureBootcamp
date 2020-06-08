@@ -1,0 +1,66 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "deploymentResourceGroup": {
+          "value": "AISU-E2-RG-NETWORK"
+        },
+        "vpnType": {
+          "value": "RouteBased"
+        },
+        "VNETResourceGroup": {
+          "value": "AISU-E2-RG-NETWORK"
+        },
+        "VNETName": {
+          "value": "HETTINGER-E2-VNET"
+        },
+        "gatewayPublicIPName": {
+          "value": "HETTINGER-E2-VNETGWIP"
+        },
+        "gatewayName": {
+          "value": "HETTINGER-E2-VNETGW"
+        },
+        "gatewaySku":{
+          "value": "Basic"
+        },        
+        "localGateways": {
+          "value": [
+              {
+                  "GatewayName": "INSTRUCTORSHUB",
+                  "GatewayIpAddress": "52.252.62.146",
+                  "LocalNetworkAddressPrefixes": ["10.154.0.0/16"]
+              }
+          ]
+        },        
+        "Connections": {
+          "value": [
+              {
+                  "ConnectionName": "toINSTRUCTORSHUB",
+                  "LocalNetworkGateway": "INSTRUCTORSHUB",
+                  "PSK": "P@$$w0Rd"
+              }
+          ]
+        },
+        "System": {
+          "value":  "Lab VNET Gateway"
+        },
+        "Component": {
+          "value":  "VNET Gateway"
+        },
+        "Environment": {
+          "value":  "Lab"    
+        },
+        "Billing Project": {
+          "value":  "Infrastructure"    
+        },
+        "Compliance": {
+          "value":  ""    
+        },
+        "Managed By": {
+          "value":  ""    
+        },
+        "Role": {
+          "value":  "VPN Gateway"    
+        }
+    }
+}      

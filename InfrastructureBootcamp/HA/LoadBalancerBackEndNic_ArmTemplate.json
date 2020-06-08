@@ -1,0 +1,159 @@
+ { 
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "deploymentResourceGroup": {
+      "type": "string"
+  },
+    "lbResourceGroup": {
+      "type": "string"
+    },
+    "lbName": {
+      "type": "string"
+    },
+    "VNETResourceGroup": {
+      "type": "string"
+    },
+    "VNETName": {
+      "type": "string"
+    },
+    "VNETSubnet": {
+      "type": "string"
+    },
+    "lbBackendPoolNIC": {
+        "type": "array"
+    },
+    "Tag-System": {
+      "type": "string"
+    },
+    "Tag-Component": {
+      "type": "string"
+    },
+    "Tag-Environment": {
+      "type": "string"
+    },
+    "Tag-BillingProject": {
+      "type": "string"
+    },
+    "Tag-Compliance": {
+      "type": "string"
+    },
+    "Tag-ManagedBy": {
+      "type": "string"
+    },
+    "Tag-Role": {
+      "type": "string"
+    }
+   },
+  "variables": {  
+  },
+  "functions": [
+    {
+      "namespace": "lbfunc",
+      "members": {
+        "GetSubnetId": {
+          "parameters": [
+            {
+              "name": "VNETResourceGroup",
+              "type": "string"
+            },
+            {
+              "name": "VNETName",
+              "type": "string"
+            },
+            {
+              "name": "VNETSubnet",
+              "type": "string"
+            }
+          ],
+          "output": {
+            "type":"object",
+            "value": {"id": "[concat('/subscriptions/',subscription().subscriptionId,'/resourceGroups/',parameters('VNETResourceGroup'),'/providers/Microsoft.Network/virtualNetworks/',parameters('VNETName'),'/subnets/',parameters('VNETSubnet'))]"}
+          }
+        },
+        "GetResourceId": {
+          "parameters": [
+            {
+              "name": "ResourceGroup",
+              "type": "string"
+            },
+            {
+             "name": "Name",
+             "type": "string"
+            },
+            {
+             "name": "Type",
+             "type": "string"
+            }
+          ],
+          "output": {
+            "type":"object",
+            "value": {"id": "[resourceId(parameters('ResourceGroup'), parameters('Type'), parameters('Name'))]"}
+          }
+        },
+        "GetBackendPoolId": {
+          "parameters": [
+            {
+              "name": "lbResourceGroup",
+              "type": "string"
+            },
+            {
+             "name": "lbName",
+             "type": "string"
+            },
+            {
+             "name": "lbBackendPoolName",
+             "type": "string"
+            }
+          ],
+          "output": {
+            "type": "array",
+            "value": [{"id": "[concat(resourceId(parameters('lbResourceGroup'),'Microsoft.Network/loadBalancers',parameters('lbName')), '/backendAddressPools/', parameters('lbBackendPoolName'))]"}]
+          }
+        }
+      }
+    }
+  ],
+  "resources": [   
+      {  
+         "apiVersion": "2017-10-01",  
+         "type": "Microsoft.Network/networkInterfaces",  
+         "name": "[parameters('lbBackendPoolNIC')[copyIndex('nicLoop')].NICName]",
+         "location": "[resourceGroup().location]",
+         "tags": {
+           "System": "[parameters('Tag-System')]",
+           "Component": "[parameters('Tag-Component')]",
+           "Environment": "[parameters('Tag-Environment')]",
+           "Billing Project": "[parameters('Tag-BillingProject')]",
+           "Compliance": "[parameters('Tag-Compliance')]",
+           "Managed By": "[parameters('Tag-ManagedBy')]",
+           "Role": "[parameters('Tag-Role')]"       
+         },         
+         "copy": {  
+           "name": "nicLoop",  
+           "count": "[length(parameters('lbBackendPoolNIC'))]"  
+         },  
+         "properties": {
+          "copy": [
+            {
+              "name": "ipConfigurations",
+              "count": "[length(parameters('lbBackendPoolNIC')[copyIndex('nicLoop')].NICIpConfigurations)]",
+              "input": {
+                  "name": "[parameters('lbBackendPoolNIC')[copyIndex('nicLoop')].NICIpConfigurations[copyIndex('ipConfigurations')].Name]",
+                  "properties": {
+                    "primary": "[parameters('lbBackendPoolNIC')[copyIndex('nicLoop')].NICIpConfigurations[copyIndex('ipConfigurations')].isPrimary]",
+                    "publicIPAddress": "[if(not(equals(parameters('lbBackendPoolNIC')[copyIndex('nicLoop')].NICIpConfigurations[copyIndex('ipConfigurations')].PublicIpName, '')), lbfunc.GetResourceId(parameters('lbBackendPoolNIC')[copyIndex('nicLoop')].NICIpConfigurations[copyIndex('ipConfigurations')].PublicIpResourceGroup, parameters('lbBackendPoolNIC')[copyIndex('nicLoop')].NICIpConfigurations[copyIndex('ipConfigurations')].PublicIpName, 'Microsoft.Network/publicIPAddresses/'), json('null'))]",
+                    "privateIPAllocationMethod": "Static",
+                    "privateIPAddress": "[parameters('lbBackendPoolNIC')[copyIndex('nicLoop')].NICIpConfigurations[copyIndex('ipConfigurations')].IPAddress]",              
+                    "subnet": "[lbfunc.GetSubnetId(parameters('VNETResourceGroup'),parameters('VNETName'),parameters('VNETSubnet'))]",             
+                    "loadBalancerBackendAddressPools": "[if(not(equals(parameters('lbBackendPoolNIC')[copyIndex('nicLoop')].NICIpConfigurations[copyIndex('ipConfigurations')].lbBackendPoolName, '')), lbfunc.GetBackendPoolId(parameters('lbResourceGroup'), parameters('lbName'), parameters('lbBackendPoolNIC')[copyIndex('nicLoop')].NICIpConfigurations[copyIndex('ipConfigurations')].lbBackendPoolName), json('null'))]"                    
+                  }
+              }
+            }
+          ],
+          "enableIPForwarding": "[parameters('lbBackendPoolNIC')[copyIndex('nicLoop')].enableIPForwarding]"
+         }  
+      }
+  ]
+ }
+  

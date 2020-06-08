@@ -1,0 +1,1 @@
+scripts & tools used in day 1 of Azure Infrastructure Bootcamp

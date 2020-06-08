@@ -1,0 +1,81 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "deploymentResourceGroup": {
+            "value": "AISU-E2-RG-AKV"
+        },
+        "keyVaultName": {
+            "value": "FABIEN-E2-AKV-01" 
+        },
+        "skuName": {
+            "value": "Standard" 
+        },
+        "enableVaultForDeployment": {
+            "value": true
+        },
+        "enableVaultForDiskEncryption": {
+            "value": true
+        },
+        "enabledForTemplateDeployment": {
+            "value": true
+        },
+        "networkAclDefaultAction": {
+            "value": "deny"
+        },
+        "accessPolicies": {
+            "value": [
+                {
+                    "comments": "FabienAADaccount",
+                    "tenantId": "f32b97f0-efb8-4bc3-91ee-18a6e5f635c9",
+                    "objectId": "5ccdba40-993d-4db7-9d8f-120efc6292c3",
+                    "permissions": {
+                        "keys": ["all"],
+                        "secrets": ["all"],
+                        "certificates": ["all"]                  
+                    }
+                }
+            ]
+        },
+        "virtualNetworkAcls": {
+          "value": [
+            {
+                "VnetSubscriptionId":"37c72280-b15a-4434-89c7-0e8ab38c7702",
+                "VnetResourceGroup":"AISU-E2-RG-NETWORK",
+                "VnetName":"FABIEN-E2-VNET",
+                "VnetSubnet":"FABIEN-E2-SNT-ED",
+                "action":"allow"
+            },
+            {
+                "VnetSubscriptionId":"37c72280-b15a-4434-89c7-0e8ab38c7702",
+                "VnetResourceGroup":"AISU-E2-RG-NETWORK",
+                "VnetName":"FABIEN-E2-VNET",
+                "VnetSubnet":"FABIEN-E2-SNT-AP",
+                "action":"allow"
+            },
+            {
+                "VnetSubscriptionId":"37c72280-b15a-4434-89c7-0e8ab38c7702",
+                "VnetResourceGroup":"AISU-E2-RG-NETWORK",
+                "VnetName":"FABIEN-E2-VNET",
+                "VnetSubnet":"FABIEN-E2-SNT-DB",
+                "action":"allow"
+            }
+          ]
+        },
+        "networkAclSourceIpAddresses": {
+            "value": [
+              {
+                "IpAddress": "65.222.251.19",
+                "Action": "Allow"
+              }
+            ]
+        },
+        "tags": {
+            "value": {
+              "system": "Infrastructure",
+              "component": "Key Vault",
+              "billingProject": "AIS"
+            }
+        }
+    }        
+}

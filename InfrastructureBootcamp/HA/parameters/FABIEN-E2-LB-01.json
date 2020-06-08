@@ -1,0 +1,83 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "deploymentResourceGroup": {
+        "value": "FABIEN-E2-RG-01-001"
+    },
+        "lbName": {
+            "value": "FABIEN-E2-LB-01" 
+        },
+        "lbSKU": {
+            "value": "Standard" 
+        },
+        "VNETResourceGroup": {
+            "value": "FABIEN-E2-RG-NETWORK"
+        },
+        "VNETName": {
+            "value": "FABIEN-E2-VNET" 
+        },
+        "VNETSubnet": {
+            "value": "FABIEN-E2-SNT-ED" 
+        },
+        "lbFrontendType": {
+          "Value": "public"
+        },
+        "lbFrontends": {
+            "Value": [
+                        {
+                          "Name": "eLbFrontEnd1",
+                          "PublicIPName": "FABIEN-E2-PIP01"
+                        }
+                     ]                      
+        },
+        "lbBackendPools": {
+            "Value": ["eLbBePool1"]
+        },
+        "lbProbes": {
+            "Value": [
+                       {
+                         "Name": "HTTP",
+                         "Protocol": "tcp",
+                         "Port": "80"
+                       }
+                     ]
+        },
+        "lbRules": {
+            "Value": [
+                       {
+                         "Name": "eLbBePool1Rule1",
+                         "FrontEndPool": "eLbFrontEnd1",
+                         "BackEndPool": "eLbBePool1",
+                         "Probe": "HTTP",
+                         "Protocol": "tcp",
+                         "FrontendPort": 80,
+                         "BackendPort": 80,
+                         "IdleTimeout": 15,
+                         "DisableOutboundSNAT": false
+                       }
+                     ]
+        },
+        "Tag-System": {
+          "value": "Infrastructure"
+        },
+        "Tag-Component": {
+          "value": "External Load Balancer"
+        },
+        "Tag-Environment": {
+          "value": "LAB"
+        },
+        "Tag-BillingProject": {
+          "value": "Infrastructure"
+        },
+        "Tag-Compliance": {
+          "value": ""
+        },
+        "Tag-ManagedBy": {
+          "value": ""
+        },
+        "Tag-Role": {
+          "value": "Infrastructure"
+        }
+    }        
+}

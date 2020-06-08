@@ -1,0 +1,38 @@
+[
+  {
+    "PolicyAssignment": "AllowAISUResourceTypes",
+    "ScopeType": "Management Group",
+    "ScopeName": "AISU-MGP",
+    "PolicyDefinition": "Allowed resource types",
+    "PolicyParameters": [
+      {
+        "name": "listOfResourceTypesAllowed",
+        "value": [
+          "Microsoft.Compute/disks",
+          "Microsoft.Compute/virtualMachines",
+          "Microsoft.Compute/virtualMachines/extensions",
+          "Microsoft.KeyVault/vaults",
+          "Microsoft.Network/networkInterfaces",
+          "Microsoft.Network/routeTables",
+          "Microsoft.Network/virtualNetworks",
+          "Microsoft.Storage/storageAccounts",
+          "Microsoft.Automation/automationAccounts",
+          "Microsoft.Automation/automationAccounts/configurations",
+          "Microsoft.Automation/automationAccounts/runbooks",
+          "microsoft.insights/actiongroups",
+          "microsoft.insights/metricalerts",
+          "microsoft.insights/scheduledqueryrules",
+          "Microsoft.Network/connections",
+          "Microsoft.Network/localNetworkGateways",
+          "Microsoft.Network/networkSecurityGroups",
+          "Microsoft.Network/publicIPAddresses",
+          "Microsoft.Network/virtualNetworkGateways",
+          "Microsoft.OperationalInsights/workspaces",
+          "Microsoft.RecoveryServices/vaults",
+          "Microsoft.Network/networkWatchers",
+          "Microsoft.Network/networkWatchers/connectionMonitors"
+        ]
+      }
+    ]
+  }
+]
