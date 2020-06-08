@@ -1,0 +1,66 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "DeploymentResourceGroup": {
+        "value": "AISU-E2-RG-01-001"
+      }, 
+      "StorageAccountName": {
+        "value": "aisue2store2"
+      },
+      "virtualNetworkAcls": {
+        "value": [
+          {
+              "VnetSubscriptionId":"e8594d5f-fd1a-4588-a52a-aa166dd1024f",
+              "VnetResourceGroup":"AISU-E2-RG-NETWORK",
+              "VnetName":"AISU-E2-VNET-01",
+              "VnetSubnet":"AISU-E2-SNT-JP",
+              "action":"allow"
+          },
+          {
+              "VnetSubscriptionId":"e8594d5f-fd1a-4588-a52a-aa166dd1024f",
+              "VnetResourceGroup":"AISU-E2-RG-NETWORK",
+              "VnetName":"AISU-E2-VNET-01",
+              "VnetSubnet":"AISU-E2-SNT-ED",
+              "action":"allow"
+          },
+          {
+              "VnetSubscriptionId":"e8594d5f-fd1a-4588-a52a-aa166dd1024f",
+              "VnetResourceGroup":"AISU-E2-RG-NETWORK",
+              "VnetName":"AISU-E2-VNET-01",
+              "VnetSubnet":"AISU-E2-SNT-AP",
+              "action":"allow"
+          },
+          {
+              "VnetSubscriptionId":"e8594d5f-fd1a-4588-a52a-aa166dd1024f",
+              "VnetResourceGroup":"AISU-E2-RG-NETWORK",
+              "VnetName":"AISU-E2-VNET-01",
+              "VnetSubnet":"AISU-E2-SNT-DS",
+              "action":"allow"
+          }
+        ]
+      },
+      "networkAclSourceIpAddresses": {
+          "value": [
+            {
+              "IpAddress": "207.172.84.22",
+              "Action": "Allow"
+            },
+            {
+              "IpAddress": "65.222.251.19",
+              "Action": "Allow"
+            }
+          ]
+      },
+      "networkAclDefaultAction": {
+          "value": "deny"
+      },
+      "tags": {
+          "value": {
+            "system": "Infrastructure",
+            "component": "Storage Account for VM Diagnostic Logs",
+            "billingProject": "AISU"
+          }
+      }
+    }        
+}

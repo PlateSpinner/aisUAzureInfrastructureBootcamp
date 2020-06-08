@@ -1,0 +1,45 @@
+{ 
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "workspaceSubscription": {
+          "type": "string"
+      },
+      "workspaceResourceGroup": {
+          "type": "string"
+      },
+      "workspaceName": {
+          "type": "string"
+      },
+      "vmName": {
+          "type": "string"
+      }
+     },
+    "variables": {
+        "workspaceId": "[resourceId(parameters('workspaceSubscription'),parameters('workspaceResourceGroup'),'Microsoft.OperationalInsights/workspaces',parameters('workspaceName'))]",
+        "vmExtensionApiVersion": "2015-06-15",
+        "LogAnalyticsApiVersion": "2015-03-20"
+    },
+    "resources": [
+        {
+          "type": "Microsoft.Compute/virtualMachines/extensions",
+          "name": "[concat(parameters('vmName'),'/Microsoft.EnterpriseCloud.Monitoring')]",
+          "apiVersion": "[variables('vmExtensionApiVersion')]",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [],
+          "properties": {
+            "publisher": "Microsoft.EnterpriseCloud.Monitoring",
+            "type": "MicrosoftMonitoringAgent",
+            "typeHandlerVersion": "1.0",
+            "autoUpgradeMinorVersion": true,
+            "settings": {          
+              "workspaceId": "[reference(variables('workspaceId'), variables('LogAnalyticsApiVersion'), 'Full').properties.customerId]"
+            },
+            "protectedSettings": {
+              "workspaceKey": "[listKeys(variables('workspaceId'), variables('LogAnalyticsApiVersion')).primarySharedKey]"           
+            }
+          }
+        }        
+    ]
+   }
+    

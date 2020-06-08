@@ -1,0 +1,45 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "deploymentResourceGroup": {
+            "value": "AISU-E2-RG-AKV"
+        },
+        "keyVaultName": {
+            "value": "AISU-E2-AKV-02" 
+        },
+        "skuName": {
+            "value": "Standard" 
+        },
+        "enableVaultForDeployment": {
+            "value": true
+        },
+        "enableVaultForDiskEncryption": {
+            "value": true
+        },
+        "enabledForTemplateDeployment": {
+            "value": true
+        },
+        "accessPolicies": {
+            "value": [
+                {
+                    "comments": "KeyVaultAdmins",
+                    "tenantId": "fcd938f8-aaf6-4544-9d6a-3c121769a306",
+                    "objectId": "938d6a0e-395a-46a0-8122-2daa9cb96afa",
+                    "permissions": {
+                        "keys": ["all"],
+                        "secrets": ["all"],
+                        "certificates": ["all"]                  
+                    }
+                }
+            ]
+        },
+        "tags": {
+            "value": {
+              "system": "Infrastructure",
+              "component": "Key Vault",
+              "billingProject": "AISU"
+            }
+        }
+    }        
+}

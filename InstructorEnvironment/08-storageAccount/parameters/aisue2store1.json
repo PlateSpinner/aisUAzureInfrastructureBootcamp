@@ -1,0 +1,19 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "DeploymentResourceGroup": {
+        "value": "AISU-E2-RG-01-001"
+      }, 
+      "StorageAccountName": {
+        "value": "aisue2store1"
+      },
+      "tags": {
+          "value": {
+            "system": "Infrastructure",
+            "component": "Storage account for config files",
+            "billingProject": "AISU"
+          }
+      }
+    }        
+}

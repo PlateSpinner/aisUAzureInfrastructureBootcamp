@@ -1,0 +1,62 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "deploymentResourceGroup": {
+        "value": "AISU-E2-RG-NSG"
+      },
+      "deploymentPrefix": {
+        "value": "AISU-E2"
+      },
+      "billingProject": {
+          "value": "AISU"
+      },
+      "addsClientsSubnets": {
+          "value": [
+            "10.154.3.0/24",            
+            "10.154.4.0/24",            
+            "10.154.5.0/24",
+            "10.160.0.0/11"
+          ]
+      },
+      "crlClientsSubnets": {
+          "value": [
+            "10.144.0.0/12",
+            "10.160.0.0/11"
+          ]
+      },
+      "adfsClientsSubnets": {
+          "value": [
+            "10.144.0.0/12",
+            "10.160.0.0/11"
+          ]
+      },
+      "jumpToAllSubnets": {
+          "value": [
+            "10.144.0.0/12",
+            "10.160.0.0/11"
+          ]
+      },
+      "crlIpAddress": {
+          "value": "10.154.4.4"
+      },
+      "rdgwIpAddress": {
+          "value": "10.154.5.4"
+      },       
+      "adfsIpAddress": {
+          "value": "10.154.3.4"
+      },
+      "edAddressPrefix": {
+          "value": "10.154.2.0/24"
+      },
+      "apAddressPrefix": {
+          "value": "10.154.3.0/24"
+      },
+      "dsAddressPrefix": {
+          "value": "10.154.4.0/24"
+      },
+      "jpAddressPrefix": {
+          "value": "10.154.5.0/24"
+      }
+    }        
+}

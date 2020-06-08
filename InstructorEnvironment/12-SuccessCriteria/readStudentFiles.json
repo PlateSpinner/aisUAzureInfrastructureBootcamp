@@ -1,0 +1,68 @@
+{
+    "storageAccount": {
+        "subscriptionId": "e8594d5f-fd1a-4588-a52a-aa166dd1024f",
+        "resourceGroup": "AISU-E2-RG-01-001",
+        "name": "aisue2store1",
+        "container": "students"
+    },
+    "studentList": [
+        {
+            "givenName":  "Christopher",
+            "surname":  "LeBlanc"
+        },
+        {
+            "givenName":  "David",
+            "surname":  "Dracoules"
+        },
+        {
+            "givenName":  "Harish",
+            "surname":  "Bidadi"
+        },
+        {
+            "givenName":  "Jacob",
+            "surname":  "Bass"
+        },
+        {
+            "givenName":  "Kendall",
+            "surname":  "Free"
+        },
+        {
+            "givenName":  "Mark",
+            "surname":  "Trevino"
+        },
+        {
+            "givenName":  "Robert",
+            "surname":  "Hatton"
+        },
+        {
+            "givenName":  "Tony",
+            "surname":  "Nguyen"
+        },
+        {
+            "givenName":  "Wydell",
+            "surname":  "Bannerman"
+        }
+    ],
+    "instructorsList": [
+        {
+            "givenName":  "Clint",
+            "surname":  "Richardson"
+        },
+        {
+            "givenName":  "Jason",
+            "surname":  "Fertig"
+        },
+        {
+            "givenName":  "Fabien",
+            "surname":  "Gilbert"
+        },
+        {
+            "givenName":  "George",
+            "surname":  "Gibb"
+        },
+        {
+            "givenName":  "Benyamin",
+            "surname":  "Famili"
+        }
+    ]
+}

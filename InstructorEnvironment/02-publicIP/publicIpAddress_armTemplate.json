@@ -1,0 +1,72 @@
+{ 
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "deploymentResourceGroup": {
+            "type": "string"
+        },
+        "location": {
+            "type": "string",
+            "defaultValue": "[resourceGroup().location]"         
+        },
+        "sku": {
+            "type": "string",
+            "defaultValue": "Standard",
+            "allowedValues": [
+                "Basic",
+                "Standard"
+            ]
+        },
+        "publicIpAddressVersion": {
+            "type": "string",
+            "allowedValues": ["IPv4","IPv6"],
+            "defaultValue": "IPv4"
+        },
+        "publicIPAllocationMethod": {
+            "type": "string",
+            "allowedValues": [
+                "Dynamic",
+                "Static"
+            ],
+            "defaultValue": "Static"
+        },
+        "publicIpAddresses": {
+            "type": "array"
+        },
+        "ipPrefixResourceGroup": {
+            "type": "string"
+        },
+        "ipPrefixName": {
+            "type": "string"
+        }
+     },
+    "variables": {  
+     },
+    "resources": [
+        {
+            "name": "[parameters('publicIpAddresses')[copyIndex('pipLoop')].name]",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "apiVersion": "2019-04-01",
+            "location": "[parameters('location')]",
+            "copy": {
+                "name": "pipLoop",
+                "count": "[length(parameters('publicIpAddresses'))]"
+            },
+            "tags": "[parameters('publicIpAddresses')[copyIndex('pipLoop')].tags]",
+            "sku": {
+              "name": "[parameters('sku')]"
+            },
+            "properties": {
+              "publicIPAllocationMethod": "[parameters('publicIPAllocationMethod')]",
+              "publicIPAddressVersion": "[parameters('publicIpAddressVersion')]",
+              "dnsSettings": {
+                "domainNameLabel": "[parameters('publicIpAddresses')[copyIndex('pipLoop')].domainNameLabel]"
+              },
+              "publicIPPrefix": {
+                "id": "[resourceId(parameters('ipPrefixResourceGroup'), 'Microsoft.Network/publicIPPrefixes', parameters('ipPrefixName'))]"
+              }
+            }
+        }
+    ]
+   }
+    

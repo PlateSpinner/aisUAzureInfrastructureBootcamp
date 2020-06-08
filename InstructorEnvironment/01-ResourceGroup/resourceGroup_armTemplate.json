@@ -1,0 +1,45 @@
+{ 
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "deploymentLocation": {
+        "type": "string"
+      },
+      "resourceGroups": {
+          "type": "array"
+      }
+     },
+    "variables": {
+        "ApiLinkedTemplateVersion": "2017-05-10"
+     },
+    "resources": [
+      {
+          "type": "Microsoft.Resources/deployments",
+          "apiVersion": "2018-05-01",
+          "name": "[concat(parameters('resourceGroups')[copyIndex()].ResourceGroupName, '_ResourceGroup')]",
+          "location": "[parameters('deploymentLocation')]",
+          "copy": {
+              "count": "[length(parameters('resourceGroups'))]",
+              "name": "ResourceGroupLoop"
+          },
+          "properties": {
+            "mode": "Incremental",
+            "template": {
+              "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+              "contentVersion": "1.0.0.0",
+              "resources": [
+                  {
+                    "type": "Microsoft.Resources/resourceGroups",
+                    "apiVersion": "2018-05-01",
+                    "location": "[parameters('deploymentLocation')]",
+                    "name": "[parameters('resourceGroups')[copyIndex()].ResourceGroupName]",                    
+                    "tags": "[parameters('resourceGroups')[copyIndex()].ResourceGroupTags]",  
+                    "properties": {}
+                }
+              ]
+            }
+          }
+      }
+    ]
+   }
+    

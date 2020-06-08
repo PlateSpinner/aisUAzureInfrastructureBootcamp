@@ -1,0 +1,98 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "deploymentResourceGroup": {
+            "value": "AISU-E2-RG-NETWORK"
+        },
+        "vnetName": {
+            "value": "AISU-E2-VNET-01"
+        },
+        "vnetAddressPrefix": {
+            "value": ["10.154.0.0/16"]
+        },
+        "tags": {
+            "value": {
+              "system": "Infrastructure",
+              "component": "Network Security Groups",
+              "billingProject": "AISU"
+            }
+        },
+        "DnsServers": {
+            "value": [
+                "10.154.4.4",
+                "10.154.4.5"
+            ]
+        },
+        "subnets": {
+            "value": [
+                {
+                    "SubnetName": "GatewaySubnet",     
+                    "addressPrefix": "10.154.0.0/24",          
+                    "NsgResourceGroup": "",
+                    "NsgName": "",          
+                    "UdrResourceGroup": "",
+                    "UdrName": "",
+                    "serviceEndpoints": ""
+                },
+                {
+                    "SubnetName": "AppGatewaySubnet",     
+                    "addressPrefix": "10.154.1.0/24",          
+                    "NsgResourceGroup": "",
+                    "NsgName": "",          
+                    "UdrResourceGroup": "",
+                    "UdrName": "",
+                    "serviceEndpoints": ""
+                },
+                {
+                    "SubnetName": "AISU-E2-SNT-ED",     
+                    "addressPrefix": "10.154.2.0/24",          
+                    "NsgResourceGroup": "AISU-E2-RG-NSG",
+                    "NsgName": "AISU-E2-NSG-ED",          
+                    "UdrResourceGroup": "",
+                    "UdrName": "",
+                    "serviceEndpoints": [
+                        {"service": "Microsoft.Storage"},
+                        {"service": "Microsoft.Keyvault"} 
+                    ]
+                },
+                {
+                    "SubnetName": "AISU-E2-SNT-AP",     
+                    "addressPrefix": "10.154.3.0/24",          
+                    "NsgResourceGroup": "AISU-E2-RG-NSG",
+                    "NsgName": "AISU-E2-NSG-AP",          
+                    "UdrResourceGroup": "",
+                    "UdrName": "",
+                    "serviceEndpoints": [
+                        {"service": "Microsoft.Storage"},
+                        {"service": "Microsoft.Keyvault"} 
+                    ]
+                },
+                {
+                    "SubnetName": "AISU-E2-SNT-DS",     
+                    "addressPrefix": "10.154.4.0/24",          
+                    "NsgResourceGroup": "AISU-E2-RG-NSG",
+                    "NsgName": "AISU-E2-NSG-DS",          
+                    "UdrResourceGroup": "",
+                    "UdrName": "",
+                    "serviceEndpoints": [
+                        {"service": "Microsoft.Storage"},
+                        {"service": "Microsoft.Keyvault"} 
+                    ]
+                },
+                {
+                    "SubnetName": "AISU-E2-SNT-JP",     
+                    "addressPrefix": "10.154.5.0/24",          
+                    "NsgResourceGroup": "AISU-E2-RG-NSG",
+                    "NsgName": "AISU-E2-NSG-JP",          
+                    "UdrResourceGroup": "",
+                    "UdrName": "",
+                    "serviceEndpoints": [
+                        {"service": "Microsoft.Storage"},
+                        {"service": "Microsoft.Keyvault"} 
+                    ]
+                }
+            ]                      
+        }
+    }        
+}

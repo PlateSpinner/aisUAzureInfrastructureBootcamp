@@ -1,0 +1,32 @@
+{ 
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "deploymentResourceGroup": {
+          "type": "string"
+      },
+      "AutomationAccountName": {
+          "type": "string"
+      },
+      "AutomationAccountSku": {
+        "type": "string"
+      }
+     },
+    "variables": {        
+     },
+    "resources": [
+        {
+            "comments": "Automation account for DSC",
+            "apiVersion": "2018-06-30",
+            "location": "[resourceGroup().location]",
+            "name": "[parameters('AutomationAccountName')]",
+            "type": "Microsoft.Automation/automationAccounts",
+            "properties": {
+                "sku": {
+                    "name": "[parameters('AutomationAccountSku')]"
+                }
+            }
+        } 
+    ]
+   }
+    
