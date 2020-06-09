@@ -7,4 +7,4 @@
 4. Take that new App Service and enable it for authentication using the Express Settings (see "https://docs.microsoft.com/en-us/azure/app-service/configure-authentication-provider-aad#-configure-with-express-settings").<br>Following the instructions for step 5 to set action for non authentication to be "Log in with Azure Active Directory".
 5. Browse to your App Service URL. You might get a weird response. You have your old page in browser cache. Either use an "incognito mode" browser or clear your cache and try again. You should be prompted for authentication. Put in your appliedis.com creds and watch the magic.<br>Now try out some of the other students' URLs again.
 
-### After completion of labs run [this End of Day Script (same from day 1)](/InfrastructureBootcamp/IAM/endOfDayScript_IAM.ps1)
+### After completion of labs run [this End of Day Script (same from day 1)](/InfrastructureBootcamp/IAM/endofdayscript_IAM.ps1)
