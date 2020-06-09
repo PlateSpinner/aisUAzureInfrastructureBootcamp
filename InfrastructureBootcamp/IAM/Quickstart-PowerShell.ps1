@@ -1,8 +1,8 @@
-$rgpName=AISU-E2-RG-JF-QuickPaaS
+$rgpName=AISU-E2-RG-01
 $appSvcName="aisUHelloWorld"+(Get-Random)
 
 # Create a resource group.
-az group create --location eastus2 --name $rgpName
+#az group create --location eastus2 --name $rgpName
 
 # Start from instructions
 ## In the Cloud Shell, create a quickstart directory and then change to it.
