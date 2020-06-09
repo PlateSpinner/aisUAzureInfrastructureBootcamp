@@ -1,4 +1,4 @@
-$rgpName=AISU-E2-RG-01
+$rgpName="AISU-E2-RG-01"
 $appSvcName="aisUHelloWorld"+(Get-Random)
 
 # Create a resource group.
